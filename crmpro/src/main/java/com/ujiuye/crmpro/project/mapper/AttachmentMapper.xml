@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ujiuye.crmpro.project.mapper.AttachmentMapper" >
+  <resultMap id="BaseResultMap" type="com.ujiuye.crmpro.project.pojo.Attachment" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="pro_fk" property="proFk" jdbcType="INTEGER" />
+    <result column="attname" property="attname" jdbcType="VARCHAR" />
+    <result column="attdis" property="attdis" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="path" property="path" jdbcType="VARCHAR" />
+    <result column="addtime" property="addtime" jdbcType="DATE" />
+    <result column="updatetime" property="updatetime" jdbcType="DATE" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="tag" property="tag" jdbcType="INTEGER" />
+    <association property="project" column="pro_fk" javaType="com.ujiuye.crmpro.project.pojo.Project" select="com.ujiuye.crmpro.project.mapper.ProjectMapper.selectByPrimaryKey"></association>
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, pro_fk, attname, attdis, remark, path, addtime, updatetime, type, tag
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.ujiuye.crmpro.project.pojo.AttachmentExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from attachment
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from attachment
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from attachment
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ujiuye.crmpro.project.pojo.AttachmentExample" >
+    delete from attachment
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ujiuye.crmpro.project.pojo.Attachment" >
+    insert into attachment (id, pro_fk, attname, 
+      attdis, remark, path, 
+      addtime, updatetime, type, 
+      tag)
+    values (#{id,jdbcType=INTEGER}, #{proFk,jdbcType=INTEGER}, #{attname,jdbcType=VARCHAR}, 
+      #{attdis,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{path,jdbcType=VARCHAR}, 
+      #{addtime,jdbcType=DATE}, #{updatetime,jdbcType=DATE}, #{type,jdbcType=INTEGER}, 
+      #{tag,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ujiuye.crmpro.project.pojo.Attachment" >
+    insert into attachment
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="proFk != null" >
+        pro_fk,
+      </if>
+      <if test="attname != null" >
+        attname,
+      </if>
+      <if test="attdis != null" >
+        attdis,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="path != null" >
+        path,
+      </if>
+      <if test="addtime != null" >
+        addtime,
+      </if>
+      <if test="updatetime != null" >
+        updatetime,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="tag != null" >
+        tag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="proFk != null" >
+        #{proFk,jdbcType=INTEGER},
+      </if>
+      <if test="attname != null" >
+        #{attname,jdbcType=VARCHAR},
+      </if>
+      <if test="attdis != null" >
+        #{attdis,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="path != null" >
+        #{path,jdbcType=VARCHAR},
+      </if>
+      <if test="addtime != null" >
+        #{addtime,jdbcType=DATE},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=DATE},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="tag != null" >
+        #{tag,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ujiuye.crmpro.project.pojo.AttachmentExample" resultType="java.lang.Integer" >
+    select count(*) from attachment
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update attachment
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.proFk != null" >
+        pro_fk = #{record.proFk,jdbcType=INTEGER},
+      </if>
+      <if test="record.attname != null" >
+        attname = #{record.attname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.attdis != null" >
+        attdis = #{record.attdis,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.path != null" >
+        path = #{record.path,jdbcType=VARCHAR},
+      </if>
+      <if test="record.addtime != null" >
+        addtime = #{record.addtime,jdbcType=DATE},
+      </if>
+      <if test="record.updatetime != null" >
+        updatetime = #{record.updatetime,jdbcType=DATE},
+      </if>
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=INTEGER},
+      </if>
+      <if test="record.tag != null" >
+        tag = #{record.tag,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update attachment
+    set id = #{record.id,jdbcType=INTEGER},
+      pro_fk = #{record.proFk,jdbcType=INTEGER},
+      attname = #{record.attname,jdbcType=VARCHAR},
+      attdis = #{record.attdis,jdbcType=VARCHAR},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      path = #{record.path,jdbcType=VARCHAR},
+      addtime = #{record.addtime,jdbcType=DATE},
+      updatetime = #{record.updatetime,jdbcType=DATE},
+      type = #{record.type,jdbcType=INTEGER},
+      tag = #{record.tag,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ujiuye.crmpro.project.pojo.Attachment" >
+    update attachment
+    <set >
+      <if test="proFk != null" >
+        pro_fk = #{proFk,jdbcType=INTEGER},
+      </if>
+      <if test="attname != null" >
+        attname = #{attname,jdbcType=VARCHAR},
+      </if>
+      <if test="attdis != null" >
+        attdis = #{attdis,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="path != null" >
+        path = #{path,jdbcType=VARCHAR},
+      </if>
+      <if test="addtime != null" >
+        addtime = #{addtime,jdbcType=DATE},
+      </if>
+      <if test="updatetime != null" >
+        updatetime = #{updatetime,jdbcType=DATE},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="tag != null" >
+        tag = #{tag,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ujiuye.crmpro.project.pojo.Attachment" >
+    update attachment
+    set pro_fk = #{proFk,jdbcType=INTEGER},
+      attname = #{attname,jdbcType=VARCHAR},
+      attdis = #{attdis,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      path = #{path,jdbcType=VARCHAR},
+      addtime = #{addtime,jdbcType=DATE},
+      updatetime = #{updatetime,jdbcType=DATE},
+      type = #{type,jdbcType=INTEGER},
+      tag = #{tag,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

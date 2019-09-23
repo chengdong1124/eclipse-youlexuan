@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ujiuye.crmpro.employee.mapper.ArchivesMapper" >
+  <resultMap id="BaseResultMap" type="com.ujiuye.crmpro.employee.pojo.Archives" >
+    <id column="num" property="num" jdbcType="VARCHAR" />
+    <result column="telephone" property="telephone" jdbcType="VARCHAR" />
+    <result column="school" property="school" jdbcType="VARCHAR" />
+    <result column="major" property="major" jdbcType="VARCHAR" />
+    <result column="contact" property="contact" jdbcType="VARCHAR" />
+    <result column="graudatetime" property="graudatetime" jdbcType="DATE" />
+    <result column="policstatus" property="policstatus" jdbcType="VARCHAR" />
+    <result column="nation" property="nation" jdbcType="VARCHAR" />
+    <result column="eductaion" property="eductaion" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="emp_fk" property="empFk" jdbcType="INTEGER" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="hiredate" property="hiredate" jdbcType="DATE" />
+    <association property="employee" column="emp_fk" javaType="com.ujiuye.crmpro.employee.pojo.Employee" select="com.ujiuye.crmpro.employee.mapper.EmployeeMapper.selectByPrimaryKey"></association>
+  
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    num, telephone, school, major, contact, graudatetime, policstatus, nation, eductaion, 
+    email, emp_fk, remark, hiredate
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.ujiuye.crmpro.employee.pojo.ArchivesExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from archives
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from archives
+    where num = #{num,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from archives
+    where num = #{num,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ujiuye.crmpro.employee.pojo.ArchivesExample" >
+    delete from archives
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ujiuye.crmpro.employee.pojo.Archives" >
+    insert into archives (num, telephone, school, 
+      major, contact, graudatetime, 
+      policstatus, nation, eductaion, 
+      email, emp_fk, remark, 
+      hiredate)
+    values (#{num,jdbcType=VARCHAR}, #{telephone,jdbcType=VARCHAR}, #{school,jdbcType=VARCHAR}, 
+      #{major,jdbcType=VARCHAR}, #{contact,jdbcType=VARCHAR}, #{graudatetime,jdbcType=DATE}, 
+      #{policstatus,jdbcType=VARCHAR}, #{nation,jdbcType=VARCHAR}, #{eductaion,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{empFk,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
+      #{hiredate,jdbcType=DATE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ujiuye.crmpro.employee.pojo.Archives" >
+    insert into archives
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="num != null" >
+        num,
+      </if>
+      <if test="telephone != null" >
+        telephone,
+      </if>
+      <if test="school != null" >
+        school,
+      </if>
+      <if test="major != null" >
+        major,
+      </if>
+      <if test="contact != null" >
+        contact,
+      </if>
+      <if test="graudatetime != null" >
+        graudatetime,
+      </if>
+      <if test="policstatus != null" >
+        policstatus,
+      </if>
+      <if test="nation != null" >
+        nation,
+      </if>
+      <if test="eductaion != null" >
+        eductaion,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="empFk != null" >
+        emp_fk,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="hiredate != null" >
+        hiredate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="num != null" >
+        #{num,jdbcType=VARCHAR},
+      </if>
+      <if test="telephone != null" >
+        #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="school != null" >
+        #{school,jdbcType=VARCHAR},
+      </if>
+      <if test="major != null" >
+        #{major,jdbcType=VARCHAR},
+      </if>
+      <if test="contact != null" >
+        #{contact,jdbcType=VARCHAR},
+      </if>
+      <if test="graudatetime != null" >
+        #{graudatetime,jdbcType=DATE},
+      </if>
+      <if test="policstatus != null" >
+        #{policstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="nation != null" >
+        #{nation,jdbcType=VARCHAR},
+      </if>
+      <if test="eductaion != null" >
+        #{eductaion,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="empFk != null" >
+        #{empFk,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="hiredate != null" >
+        #{hiredate,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ujiuye.crmpro.employee.pojo.ArchivesExample" resultType="java.lang.Integer" >
+    select count(*) from archives
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update archives
+    <set >
+      <if test="record.num != null" >
+        num = #{record.num,jdbcType=VARCHAR},
+      </if>
+      <if test="record.telephone != null" >
+        telephone = #{record.telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.school != null" >
+        school = #{record.school,jdbcType=VARCHAR},
+      </if>
+      <if test="record.major != null" >
+        major = #{record.major,jdbcType=VARCHAR},
+      </if>
+      <if test="record.contact != null" >
+        contact = #{record.contact,jdbcType=VARCHAR},
+      </if>
+      <if test="record.graudatetime != null" >
+        graudatetime = #{record.graudatetime,jdbcType=DATE},
+      </if>
+      <if test="record.policstatus != null" >
+        policstatus = #{record.policstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nation != null" >
+        nation = #{record.nation,jdbcType=VARCHAR},
+      </if>
+      <if test="record.eductaion != null" >
+        eductaion = #{record.eductaion,jdbcType=VARCHAR},
+      </if>
+      <if test="record.email != null" >
+        email = #{record.email,jdbcType=VARCHAR},
+      </if>
+      <if test="record.empFk != null" >
+        emp_fk = #{record.empFk,jdbcType=INTEGER},
+      </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.hiredate != null" >
+        hiredate = #{record.hiredate,jdbcType=DATE},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update archives
+    set num = #{record.num,jdbcType=VARCHAR},
+      telephone = #{record.telephone,jdbcType=VARCHAR},
+      school = #{record.school,jdbcType=VARCHAR},
+      major = #{record.major,jdbcType=VARCHAR},
+      contact = #{record.contact,jdbcType=VARCHAR},
+      graudatetime = #{record.graudatetime,jdbcType=DATE},
+      policstatus = #{record.policstatus,jdbcType=VARCHAR},
+      nation = #{record.nation,jdbcType=VARCHAR},
+      eductaion = #{record.eductaion,jdbcType=VARCHAR},
+      email = #{record.email,jdbcType=VARCHAR},
+      emp_fk = #{record.empFk,jdbcType=INTEGER},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      hiredate = #{record.hiredate,jdbcType=DATE}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ujiuye.crmpro.employee.pojo.Archives" >
+    update archives
+    <set >
+      <if test="telephone != null" >
+        telephone = #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="school != null" >
+        school = #{school,jdbcType=VARCHAR},
+      </if>
+      <if test="major != null" >
+        major = #{major,jdbcType=VARCHAR},
+      </if>
+      <if test="contact != null" >
+        contact = #{contact,jdbcType=VARCHAR},
+      </if>
+      <if test="graudatetime != null" >
+        graudatetime = #{graudatetime,jdbcType=DATE},
+      </if>
+      <if test="policstatus != null" >
+        policstatus = #{policstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="nation != null" >
+        nation = #{nation,jdbcType=VARCHAR},
+      </if>
+      <if test="eductaion != null" >
+        eductaion = #{eductaion,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="empFk != null" >
+        emp_fk = #{empFk,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="hiredate != null" >
+        hiredate = #{hiredate,jdbcType=DATE},
+      </if>
+    </set>
+    where num = #{num,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ujiuye.crmpro.employee.pojo.Archives" >
+    update archives
+    set telephone = #{telephone,jdbcType=VARCHAR},
+      school = #{school,jdbcType=VARCHAR},
+      major = #{major,jdbcType=VARCHAR},
+      contact = #{contact,jdbcType=VARCHAR},
+      graudatetime = #{graudatetime,jdbcType=DATE},
+      policstatus = #{policstatus,jdbcType=VARCHAR},
+      nation = #{nation,jdbcType=VARCHAR},
+      eductaion = #{eductaion,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      emp_fk = #{empFk,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      hiredate = #{hiredate,jdbcType=DATE}
+    where num = #{num,jdbcType=VARCHAR}
+  </update>
+  
+  <insert id="saveAll" parameterType="java.util.List">
+  	insert into archives
+  	values
+  	<foreach collection="list" separator="," item="archives">
+  	(#{archives.num}, #{archives.telephone}, #{archives.school}, #{archives.major}, #{archives.contact}, #{archives.graudatetime}, #{archives.policstatus}, #{archives.nation}, #{archives.eductaion}, #{archives.email}, #{archives.empFk}, #{archives.remark}, #{archives.hiredate})
+  	</foreach>
+  </insert>
+
+</mapper>

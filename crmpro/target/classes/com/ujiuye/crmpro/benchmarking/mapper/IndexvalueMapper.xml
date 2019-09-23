@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ujiuye.crmpro.benchmarking.mapper.IndexvalueMapper" >
+  <resultMap id="BaseResultMap" type="com.ujiuye.crmpro.benchmarking.pojo.Indexvalue" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="turnover" property="turnover" jdbcType="DOUBLE" />
+    <result column="business" property="business" jdbcType="VARCHAR" />
+    <result column="datacollect_fk" property="datacollectFk" jdbcType="INTEGER" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="file" property="file" jdbcType="VARCHAR" />
+    <result column="emp_fk5" property="empFk5" jdbcType="INTEGER" />
+    <result column="starttime" property="starttime" jdbcType="DATE" />
+    <result column="endtime" property="endtime" jdbcType="DATE" />
+    <result column="updatetime" property="updatetime" jdbcType="DATE" />
+    <association property="datacollect" column="datacollect_fk" javaType="com.ujiuye.crmpro.benchmarking.pojo.Datacollect" select="com.ujiuye.crmpro.benchmarking.mapper.DatacollectMapper.selectByPrimaryKey"></association>
+  	<association property="employee" column="emp_fk5" javaType="com.ujiuye.crmpro.employee.pojo.Employee" select="com.ujiuye.crmpro.employee.mapper.EmployeeMapper.selectByPrimaryKey"></association>
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, turnover, business, datacollect_fk, remark, file, emp_fk5, starttime, endtime, 
+    updatetime
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.ujiuye.crmpro.benchmarking.pojo.IndexvalueExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from indexvalue
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from indexvalue
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from indexvalue
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ujiuye.crmpro.benchmarking.pojo.IndexvalueExample" >
+    delete from indexvalue
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ujiuye.crmpro.benchmarking.pojo.Indexvalue" >
+    insert into indexvalue (id, turnover, business, 
+      datacollect_fk, remark, file, 
+      emp_fk5, starttime, endtime, 
+      updatetime)
+    values (#{id,jdbcType=INTEGER}, #{turnover,jdbcType=DOUBLE}, #{business,jdbcType=VARCHAR}, 
+      #{datacollectFk,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{file,jdbcType=VARCHAR}, 
+      #{empFk5,jdbcType=INTEGER}, #{starttime,jdbcType=DATE}, #{endtime,jdbcType=DATE}, 
+      #{updatetime,jdbcType=DATE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ujiuye.crmpro.benchmarking.pojo.Indexvalue" >
+    insert into indexvalue
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="turnover != null" >
+        turnover,
+      </if>
+      <if test="business != null" >
+        business,
+      </if>
+      <if test="datacollectFk != null" >
+        datacollect_fk,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="file != null" >
+        file,
+      </if>
+      <if test="empFk5 != null" >
+        emp_fk5,
+      </if>
+      <if test="starttime != null" >
+        starttime,
+      </if>
+      <if test="endtime != null" >
+        endtime,
+      </if>
+      <if test="updatetime != null" >
+        updatetime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="turnover != null" >
+        #{turnover,jdbcType=DOUBLE},
+      </if>
+      <if test="business != null" >
+        #{business,jdbcType=VARCHAR},
+      </if>
+      <if test="datacollectFk != null" >
+        #{datacollectFk,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="file != null" >
+        #{file,jdbcType=VARCHAR},
+      </if>
+      <if test="empFk5 != null" >
+        #{empFk5,jdbcType=INTEGER},
+      </if>
+      <if test="starttime != null" >
+        #{starttime,jdbcType=DATE},
+      </if>
+      <if test="endtime != null" >
+        #{endtime,jdbcType=DATE},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ujiuye.crmpro.benchmarking.pojo.IndexvalueExample" resultType="java.lang.Integer" >
+    select count(*) from indexvalue
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update indexvalue
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.turnover != null" >
+        turnover = #{record.turnover,jdbcType=DOUBLE},
+      </if>
+      <if test="record.business != null" >
+        business = #{record.business,jdbcType=VARCHAR},
+      </if>
+      <if test="record.datacollectFk != null" >
+        datacollect_fk = #{record.datacollectFk,jdbcType=INTEGER},
+      </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.file != null" >
+        file = #{record.file,jdbcType=VARCHAR},
+      </if>
+      <if test="record.empFk5 != null" >
+        emp_fk5 = #{record.empFk5,jdbcType=INTEGER},
+      </if>
+      <if test="record.starttime != null" >
+        starttime = #{record.starttime,jdbcType=DATE},
+      </if>
+      <if test="record.endtime != null" >
+        endtime = #{record.endtime,jdbcType=DATE},
+      </if>
+      <if test="record.updatetime != null" >
+        updatetime = #{record.updatetime,jdbcType=DATE},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update indexvalue
+    set id = #{record.id,jdbcType=INTEGER},
+      turnover = #{record.turnover,jdbcType=DOUBLE},
+      business = #{record.business,jdbcType=VARCHAR},
+      datacollect_fk = #{record.datacollectFk,jdbcType=INTEGER},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      file = #{record.file,jdbcType=VARCHAR},
+      emp_fk5 = #{record.empFk5,jdbcType=INTEGER},
+      starttime = #{record.starttime,jdbcType=DATE},
+      endtime = #{record.endtime,jdbcType=DATE},
+      updatetime = #{record.updatetime,jdbcType=DATE}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ujiuye.crmpro.benchmarking.pojo.Indexvalue" >
+    update indexvalue
+    <set >
+      <if test="turnover != null" >
+        turnover = #{turnover,jdbcType=DOUBLE},
+      </if>
+      <if test="business != null" >
+        business = #{business,jdbcType=VARCHAR},
+      </if>
+      <if test="datacollectFk != null" >
+        datacollect_fk = #{datacollectFk,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="file != null" >
+        file = #{file,jdbcType=VARCHAR},
+      </if>
+      <if test="empFk5 != null" >
+        emp_fk5 = #{empFk5,jdbcType=INTEGER},
+      </if>
+      <if test="starttime != null" >
+        starttime = #{starttime,jdbcType=DATE},
+      </if>
+      <if test="endtime != null" >
+        endtime = #{endtime,jdbcType=DATE},
+      </if>
+      <if test="updatetime != null" >
+        updatetime = #{updatetime,jdbcType=DATE},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ujiuye.crmpro.benchmarking.pojo.Indexvalue" >
+    update indexvalue
+    set turnover = #{turnover,jdbcType=DOUBLE},
+      business = #{business,jdbcType=VARCHAR},
+      datacollect_fk = #{datacollectFk,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      file = #{file,jdbcType=VARCHAR},
+      emp_fk5 = #{empFk5,jdbcType=INTEGER},
+      starttime = #{starttime,jdbcType=DATE},
+      endtime = #{endtime,jdbcType=DATE},
+      updatetime = #{updatetime,jdbcType=DATE}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,98 @@
+package com.offcn.service.impl;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.offcn.common.PageResult;
+import com.offcn.dao.TbGoodsDescMapper;
+import com.offcn.pojo.TbGoodsDesc;
+import com.offcn.pojo.TbGoodsDescExample;
+import com.offcn.pojo.TbGoodsDescExample.Criteria;
+import com.offcn.service.GoodsDescService;
+
+/**
+ * 服务实现层
+ * @author Administrator
+ *
+ */
+@Service
+public class GoodsDescServiceImpl implements GoodsDescService {
+
+	@Autowired
+	private TbGoodsDescMapper goods_descMapper;
+	
+	/**
+	 * 查询全部
+	 */
+	@Override
+	public List<TbGoodsDesc> findAll() {
+		return goods_descMapper.selectByExample(null);
+	}
+
+	/**
+	 * 按分页查询
+	 */
+	@Override
+	public PageResult findPage(int pageNum, int pageSize) {
+		PageHelper.startPage(pageNum, pageSize);		
+		Page<TbGoodsDesc> page=   (Page<TbGoodsDesc>) goods_descMapper.selectByExample(null);
+		return new PageResult(page.getTotal(), page.getResult());
+	}
+
+	/**
+	 * 增加
+	 */
+	@Override
+	public void add(TbGoodsDesc goods_desc) {
+		goods_descMapper.insert(goods_desc);		
+	}
+
+	
+	/**
+	 * 修改
+	 */
+	@Override
+	public void update(TbGoodsDesc goods_desc){
+		goods_descMapper.updateByPrimaryKey(goods_desc);
+	}	
+	
+	/**
+	 * 根据ID获取实体
+	 * @param id
+	 * @return
+	 */
+	@Override
+	public TbGoodsDesc findOne(Long goodsId){
+		return goods_descMapper.selectByPrimaryKey(goodsId);
+	}
+
+	/**
+	 * 批量删除
+	 */
+	@Override
+	public void delete(Long[] goodsIds) {
+		for(Long goodsId:goodsIds){
+			goods_descMapper.deleteByPrimaryKey(goodsId);
+		}		
+	}
+	
+	
+		@Override
+	public PageResult findPage(TbGoodsDesc goods_desc, int pageNum, int pageSize) {
+		PageHelper.startPage(pageNum, pageSize);
+		
+		TbGoodsDescExample example=new TbGoodsDescExample();
+		Criteria criteria = example.createCriteria();
+		
+		if(goods_desc!=null){			
+				
+		}
+		
+		Page<TbGoodsDesc> page= (Page<TbGoodsDesc>)goods_descMapper.selectByExample(example);		
+		return new PageResult(page.getTotal(), page.getResult());
+	}
+	
+}

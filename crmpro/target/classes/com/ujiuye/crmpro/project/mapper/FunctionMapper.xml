@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ujiuye.crmpro.project.mapper.FunctionMapper" >
+  <resultMap id="BaseResultMap" type="com.ujiuye.crmpro.project.pojo.Function" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="proname" property="proname" jdbcType="INTEGER" />
+    <result column="analysisname" property="analysisname" jdbcType="INTEGER" />
+    <result column="module_fk" property="moduleFk" jdbcType="INTEGER" />
+    <result column="functionname" property="functionname" jdbcType="VARCHAR" />
+    <result column="level" property="level" jdbcType="VARCHAR" />
+    <result column="simpledis" property="simpledis" jdbcType="VARCHAR" />
+    <result column="detaileddis" property="detaileddis" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="addtime" property="addtime" jdbcType="DATE" />
+    <result column="updatetime" property="updatetime" jdbcType="DATE" />
+    <association property="project" column="proname" javaType="com.ujiuye.crmpro.project.pojo.Project" select="com.ujiuye.crmpro.project.mapper.ProjectMapper.selectByPrimaryKey"></association>
+  	<association property="analysis" column="analysisname" javaType="com.ujiuye.crmpro.project.pojo.Analysis" select="com.ujiuye.crmpro.project.mapper.AnalysisMapper.selectByPrimaryKey"></association>
+  	<association property="module" column="module_fk" javaType="com.ujiuye.crmpro.project.pojo.Module" select="com.ujiuye.crmpro.project.mapper.ModuleMapper.selectByPrimaryKey"></association>
+  
+  
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, proname, analysisname, module_fk, functionname, level, simpledis, detaileddis, 
+    remark, addtime, updatetime
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.ujiuye.crmpro.project.pojo.FunctionExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from function
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from function
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from function
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ujiuye.crmpro.project.pojo.FunctionExample" >
+    delete from function
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ujiuye.crmpro.project.pojo.Function" >
+    insert into function (id, proname, analysisname, 
+      module_fk, functionname, level, 
+      simpledis, detaileddis, remark, 
+      addtime, updatetime)
+    values (#{id,jdbcType=INTEGER}, #{proname,jdbcType=INTEGER}, #{analysisname,jdbcType=INTEGER}, 
+      #{moduleFk,jdbcType=INTEGER}, #{functionname,jdbcType=VARCHAR}, #{level,jdbcType=VARCHAR}, 
+      #{simpledis,jdbcType=VARCHAR}, #{detaileddis,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{addtime,jdbcType=DATE}, #{updatetime,jdbcType=DATE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ujiuye.crmpro.project.pojo.Function" >
+    insert into function
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="proname != null" >
+        proname,
+      </if>
+      <if test="analysisname != null" >
+        analysisname,
+      </if>
+      <if test="moduleFk != null" >
+        module_fk,
+      </if>
+      <if test="functionname != null" >
+        functionname,
+      </if>
+      <if test="level != null" >
+        level,
+      </if>
+      <if test="simpledis != null" >
+        simpledis,
+      </if>
+      <if test="detaileddis != null" >
+        detaileddis,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="addtime != null" >
+        addtime,
+      </if>
+      <if test="updatetime != null" >
+        updatetime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="proname != null" >
+        #{proname,jdbcType=INTEGER},
+      </if>
+      <if test="analysisname != null" >
+        #{analysisname,jdbcType=INTEGER},
+      </if>
+      <if test="moduleFk != null" >
+        #{moduleFk,jdbcType=INTEGER},
+      </if>
+      <if test="functionname != null" >
+        #{functionname,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null" >
+        #{level,jdbcType=VARCHAR},
+      </if>
+      <if test="simpledis != null" >
+        #{simpledis,jdbcType=VARCHAR},
+      </if>
+      <if test="detaileddis != null" >
+        #{detaileddis,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="addtime != null" >
+        #{addtime,jdbcType=DATE},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ujiuye.crmpro.project.pojo.FunctionExample" resultType="java.lang.Integer" >
+    select count(*) from function
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update function
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.proname != null" >
+        proname = #{record.proname,jdbcType=INTEGER},
+      </if>
+      <if test="record.analysisname != null" >
+        analysisname = #{record.analysisname,jdbcType=INTEGER},
+      </if>
+      <if test="record.moduleFk != null" >
+        module_fk = #{record.moduleFk,jdbcType=INTEGER},
+      </if>
+      <if test="record.functionname != null" >
+        functionname = #{record.functionname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.level != null" >
+        level = #{record.level,jdbcType=VARCHAR},
+      </if>
+      <if test="record.simpledis != null" >
+        simpledis = #{record.simpledis,jdbcType=VARCHAR},
+      </if>
+      <if test="record.detaileddis != null" >
+        detaileddis = #{record.detaileddis,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.addtime != null" >
+        addtime = #{record.addtime,jdbcType=DATE},
+      </if>
+      <if test="record.updatetime != null" >
+        updatetime = #{record.updatetime,jdbcType=DATE},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update function
+    set id = #{record.id,jdbcType=INTEGER},
+      proname = #{record.proname,jdbcType=INTEGER},
+      analysisname = #{record.analysisname,jdbcType=INTEGER},
+      module_fk = #{record.moduleFk,jdbcType=INTEGER},
+      functionname = #{record.functionname,jdbcType=VARCHAR},
+      level = #{record.level,jdbcType=VARCHAR},
+      simpledis = #{record.simpledis,jdbcType=VARCHAR},
+      detaileddis = #{record.detaileddis,jdbcType=VARCHAR},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      addtime = #{record.addtime,jdbcType=DATE},
+      updatetime = #{record.updatetime,jdbcType=DATE}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ujiuye.crmpro.project.pojo.Function" >
+    update function
+    <set >
+      <if test="proname != null" >
+        proname = #{proname,jdbcType=INTEGER},
+      </if>
+      <if test="analysisname != null" >
+        analysisname = #{analysisname,jdbcType=INTEGER},
+      </if>
+      <if test="moduleFk != null" >
+        module_fk = #{moduleFk,jdbcType=INTEGER},
+      </if>
+      <if test="functionname != null" >
+        functionname = #{functionname,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null" >
+        level = #{level,jdbcType=VARCHAR},
+      </if>
+      <if test="simpledis != null" >
+        simpledis = #{simpledis,jdbcType=VARCHAR},
+      </if>
+      <if test="detaileddis != null" >
+        detaileddis = #{detaileddis,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="addtime != null" >
+        addtime = #{addtime,jdbcType=DATE},
+      </if>
+      <if test="updatetime != null" >
+        updatetime = #{updatetime,jdbcType=DATE},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ujiuye.crmpro.project.pojo.Function" >
+    update function
+    set proname = #{proname,jdbcType=INTEGER},
+      analysisname = #{analysisname,jdbcType=INTEGER},
+      module_fk = #{moduleFk,jdbcType=INTEGER},
+      functionname = #{functionname,jdbcType=VARCHAR},
+      level = #{level,jdbcType=VARCHAR},
+      simpledis = #{simpledis,jdbcType=VARCHAR},
+      detaileddis = #{detaileddis,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      addtime = #{addtime,jdbcType=DATE},
+      updatetime = #{updatetime,jdbcType=DATE}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

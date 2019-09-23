@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+			 xmlns:mvc="http://www.springframework.org/schema/mvc"
+			 xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd
+						http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd
+						http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
+
+	<http pattern="/assets/img/favicon.ico" security="none"></http>
+	<http pattern="/favicon.ico" security="none"></http>
+	<http pattern="/register.html" security="none"></http>
+	<http pattern="/shoplogin.html" security="none"></http>
+	<http pattern="/seller/add.do" security="none"></http>
+	
+	<http pattern="/css/**" security="none"></http>
+	<http pattern="/img/**" security="none"></http>
+	<http pattern="/js/**" security="none"></http>
+	<http pattern="/plugins/**" security="none"></http>
+
+	<!-- 页面拦截规则   -->
+	<http use-expressions="false">
+	
+		<intercept-url pattern="/**" access="ROLE_SHOP" />
+		
+		<form-login login-page="/shoplogin.html" default-target-url="/admin/index.html" authentication-failure-url="/shoplogin.html"></form-login>
+		
+		<!-- 退出登录 -->
+		<logout></logout>
+		
+		<csrf disabled="true"></csrf>
+		
+		<!-- 如果使用了框架，需要SAMEORIGIN认证策略 -->
+		<headers>
+			<frame-options policy="SAMEORIGIN"></frame-options>
+		</headers>
+		
+	</http>
+	
+	<!-- 引用dubbo服务 -->
+	<dubbo:application name="youlexuan-manager-web"/>
+	<dubbo:registry protocol="zookeeper" address="192.168.59.132:2181"/>	
+	<dubbo:reference interface="com.offcn.service.SellerService" id="sellerService" />
+	
+	<beans:bean id="userDetailService" class="com.offcn.user.UserDetailServiceImpl">
+		<beans:property name="SellerService" ref="sellerService"></beans:property>
+	</beans:bean>
+	
+	<!-- 要么都放在controller包跟原来一样，用controller注解以及autowire注解也可以 -->
+	<!-- 要么不放在controller包里，此时不能用controller注解，
+	因为只扫描一个包，哪怕在mvc中扫描user包也不行，这是错误的做法，所以必须写userDetailService的bean。并且依赖
+	注入(没有controller)不能用autowier注入，那么这时需要引入dubbo(因为sellerService不在这个项目下，
+	且mvc中的dubbo在这个包不起效果)，并且依赖注入(property,此时不需要SellerService的bean了)-->
+	
+	<!-- 认证管理 -->
+	<authentication-manager>
+		<authentication-provider user-service-ref="userDetailService">
+		</authentication-provider>
+	</authentication-manager>
+	
+						
+</beans:beans>
+
+
+
+
+
+
+
+
+
+
+
+
+

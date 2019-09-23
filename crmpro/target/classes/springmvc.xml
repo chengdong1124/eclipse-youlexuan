@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context.xsd">
+
+	
+	<!-- Spring MVC 不处理静态资源 --> 
+	<mvc:default-servlet-handler />
+	
+	<!-- 支持 mvc 注解驱动 -->
+    <mvc:annotation-driven enable-matrix-variables="true"/>
+    
+	<!--自定义消息转换器的编码,解决后台传输json回前台时，中文乱码问题
+	conversion-service="dateConveter" 配置了日期转换器
+	-->  
+    <mvc:annotation-driven conversion-service="dateConveter"  >  
+        <mvc:message-converters register-defaults="true">  
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter" >  
+                <property name = "supportedMediaTypes">  
+                    <list>  
+                        <value>application/json;charset=utf-8</value>  
+                        <value>text/html;charset=utf-8</value>  
+                        <!-- application 可以在任意 form 表单里面 enctype 属性默认找到 -->  
+                        <value>application/x-www-form-urlencoded</value>  
+                    </list>  
+                </property>  
+            </bean> 
+           	 <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" > 
+           	 </bean>
+  	        </mvc:message-converters>
+    </mvc:annotation-driven>
+    
+    <!--配置拦截器-->
+    <mvc:interceptors> 
+        <!--登录拦截器-->
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <bean class="com.ujiuye.crmpro.intercepter.LoginHandlerInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+	
+	
+	<!-- 自动扫包,实现支持注解的 IOC -->
+	<context:component-scan base-package="com.ujiuye.crmpro.*.controller" />
+
+
+	<!-- 处理文件上传的工具类 -->
+	<bean id="multipartResolver" class="com.ujiuye.crmpro.utils.UEditorCommonsMultipartResolver">
+		<!-- 上传文件大小上限，单位为字节（10MB） -->
+		<property name="maxUploadSize">
+			<value>10485760</value>
+		</property>
+		<!-- 请求的编码格式，必须和jSP的pageEncoding属性一致，以便正确读取表单的内容，默认为ISO-8859-1 -->
+		<property name="defaultEncoding">
+			<value>UTF-8</value>
+		</property>
+	</bean>
+
+	<bean id="dateConveter" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+		<property name="converters">
+			<list>
+				<!-- 这里写自定义的转换工具类 -->
+				<bean class="com.ujiuye.crmpro.utils.DateConveter" />
+			</list>
+		</property>
+	</bean>
+
+
+	<!-- 视图解析器 -->
+	<bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
+		<property name="prefix" value="/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+	
+	
+
+</beans>
